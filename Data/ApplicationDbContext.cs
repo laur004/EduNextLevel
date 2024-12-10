@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ProiectDAW.Models;
 
 namespace ProiectDAW.Data
 {
@@ -9,5 +10,7 @@ namespace ProiectDAW.Data
             : base(options)
         {
         }
+
+        public DbSet<Subject> Subjects { get; set; }
     }
 }
