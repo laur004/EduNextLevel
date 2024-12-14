@@ -1,0 +1,17 @@
+﻿@model ProiectDAW.Models.Grade
+
+
+<h2>Adaugare Materie</h2>
+
+
+<form method="post" asp-action="New" asp-controller="Grades">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="GradeName" class="form-label">Denumire clasa</label>
+        <input asp-for="GradeName" class="form-control" />
+        <span asp-validation-for="GradeName" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-success" type="submit">Adauga clasa</button>
+
+</form>

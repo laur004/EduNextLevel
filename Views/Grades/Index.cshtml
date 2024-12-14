@@ -1,0 +1,21 @@
+﻿<h1>Clase<h1>
+        <hr>
+        <br />
+
+
+        @if (TempData.ContainsKey("message"))
+        {
+            <h1>@TempData["message"]</h1>
+            <br />
+        }
+
+        <br />
+
+        @foreach (var subject in ViewBag.Grades)
+        {
+            <h3>@subject.GradeName</h3>
+            <a class="btn alert-success" asp-action="Show" asp-controller="Grades" asp-route-id="@subject.Id">Afisare clase</a>
+            <a class="btn alert-success" asp-action="Edit" asp-controller="Grades" asp-route-id="@subject.Id">Editare clase</a>
+            <br />
+
+        }

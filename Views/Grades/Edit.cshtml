@@ -1,0 +1,27 @@
+﻿@model ProiectDAW.Models.Grade
+
+
+<h2>@ViewBag.GradeName</h2>
+
+<form method="post" asp-action="Edit" asp-controller="Grades" asp-route-id="@Model.Id">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="GradeName" class="form-label">Denumire clasa</label>
+        <input asp-for="GradeName" class="form-control" />
+        <span asp-validation-for="GradeName" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-success" type="submit">Modifica clasa</button>
+
+
+</form>
+
+<br />
+<br />
+<form method="post" asp-controller="Grades" asp-action="Delete"
+      asp-route-id="@Model.Id">
+
+    <button class="btn btn-danger" type="submit">Sterge clasa</button>
+
+</form>
+
