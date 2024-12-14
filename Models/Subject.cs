@@ -9,6 +9,6 @@ namespace ProiectDAW.Models
 
         public string Name { get; set; }
 
-
+        public virtual ICollection<Chapter>? Chapters { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProiectDAW.Data;
 
@@ -11,9 +12,11 @@ using ProiectDAW.Data;
 namespace ProiectDAW.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241214134732_CreateChapter")]
+    partial class CreateChapter
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,25 +249,6 @@ namespace ProiectDAW.Data.Migrations
                     b.ToTable("Chapters");
                 });
 
-
-            modelBuilder.Entity("ProiectDAW.Models.Grade", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("GradeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Grades");
-                });
-
-
             modelBuilder.Entity("ProiectDAW.Models.Subject", b =>
                 {
                     b.Property<int>("Id")
@@ -336,21 +320,12 @@ namespace ProiectDAW.Data.Migrations
             modelBuilder.Entity("ProiectDAW.Models.Chapter", b =>
                 {
                     b.HasOne("ProiectDAW.Models.Subject", "Subject")
-                        .WithMany("Chapters")
-
+                        .WithMany()
                         .HasForeignKey("SubjectId");
 
                     b.Navigation("Subject");
                 });
-
-
-
-            modelBuilder.Entity("ProiectDAW.Models.Subject", b =>
-                {
-                    b.Navigation("Chapters");
-                });
-
-
+#pragma warning restore 612, 618
         }
     }
 }

@@ -1,0 +1,50 @@
+﻿@model ProiectDAW.Models.Chapter
+
+<form method="post" asp-action="New" asp-controller="Chapters">
+
+                <!--<div asp-validation-summary="All" class="text-danger"></div>-->
+
+                <div class="form-group">
+                    <label asp-for="ChapterTitle" class="form-label">Titlu Capitol</label>
+                    <br />
+                    <input asp-for="ChapterTitle" class="form-control" />
+
+                    <!-- Mesaj de validare pentru titlu -->
+                    <span asp-validation-for="ChapterTitle" class="text-danger"></span>
+
+                    <br /><br />
+
+                </div>
+
+                
+                <div class="form-group">
+                    <label for="SubjectId">Selectati materia</label>
+                    <br />
+                    <select asp-for="SubjectId" asp-items="Model.Subj" class="form-control">
+                        <option value="">Selectati materia</option>
+                    </select>
+
+                    <span asp-validation-for="SubjectId" class="text-danger"></span>
+
+                    <br />
+                </div>
+                
+
+                <!--DUPA CE SE IMPLEMENTEAZA CLASA-->
+                <!--<div class="form-group">
+                    <label for="GradeId">Selectati clasa</label>
+                    <br />
+                    <select asp-for="GradeId" asp-items="Model.Grad" class="form-control">
+                        <option value="">Selectati clasa</option>
+                    </select>
+
+                    <span asp-validation-for="GradeId" class="text-danger"></span>
+
+                    <br />
+                    <br />
+                </div>-->
+
+                <br />
+                <button class="btn btn-success" type="submit">Adauga capitol</button>
+
+            </form>
