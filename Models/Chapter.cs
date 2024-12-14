@@ -10,6 +10,8 @@ namespace ProiectDAW.Models
         [Required(ErrorMessage ="Titlu capitolui este obligatoriu")]
         public string ChapterTitle { get; set; }
 
-        public virtual ICollection<Subject>? Subjects { get; set; }
+        public virtual Subject? Subject { get; set; }
+
+        //public virtual Grade? Grade { get; set; }
     }
 }
