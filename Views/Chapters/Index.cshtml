@@ -1,0 +1,21 @@
+﻿
+
+<h1>Capitole</h1>
+
+<hr/>
+
+@if(TempData.ContainsKey("message"))
+{
+    <h1>@TempData["message"]</h1>
+    <br/>
+}
+
+<br/>
+
+@foreach(var chapter in ViewBag.Chapters){
+    <h3>@chapter.ChapterTitle</h3>
+    <a class="btn alert-success" asp-action="Show" asp-controller="Chapters" asp-route-id="@chapter.Id">Afisare capitol</a>
+    <a class="btn alert-success" asp-action="Edit" asp-controller="Chapters" asp-route-id="@chapter.Id">Editare capitol</a>
+    <br/>
+
+}
