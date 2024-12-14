@@ -32,7 +32,21 @@
                     <span asp-validation-for="SubjectId" class="text-danger"></span>
 
                     <br />
+
                 </div>
+                
+                <div class="form-group">
+                    <label for="GradeId">Selectati Clasa</label>
+                    <br />
+                    <select asp-for="GradeId" asp-items="Model.Grad" class="form-control">
+                        <option value="">Selectati clasa</option>
+                    </select>
+
+                    <span asp-validation-for="GradeId" class="text-danger"></span>
+
+                    <br />
+                </div>
+
 
                 <button class="btn btn-sm btn-success" type="submit">Modifica articol</button>
 

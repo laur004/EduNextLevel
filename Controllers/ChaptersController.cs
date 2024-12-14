@@ -30,7 +30,7 @@ namespace ProiectDAW.Controllers
 
             // Trimite materia selectată și capitolele către View
             ViewBag.SubjectId = subjectId;
-            //ViewBag.GradeId = gradeId;
+            ViewBag.GradeId = gradeId;
 
             return View(chapters);
             */
@@ -50,7 +50,7 @@ namespace ProiectDAW.Controllers
             Chapter chapter = new Chapter();
             chapter.Subj = GetAllSubjects();
             //DUPA CE ADAUG CLASA
-            //chapter.Grad = GetAllGrades();
+            chapter.Grad = GetAllGrades();
 
             return View(chapter);
         }
@@ -77,6 +77,7 @@ namespace ProiectDAW.Controllers
             Chapter chapter = db.Chapters.Find(id);
 
             chapter.Subj = GetAllSubjects();
+            chapter.Grad=GetAllGrades();
             return View(chapter);
         }
 
@@ -89,7 +90,7 @@ namespace ProiectDAW.Controllers
             {
                 chapter.ChapterTitle = req_chapter.ChapterTitle;
                 chapter.SubjectId = req_chapter.SubjectId;
-                //chapter.Grade.Id = req_chapter.Grade.Id;
+                chapter.GradeId = req_chapter.GradeId;
                 db.SaveChanges();
                 TempData["message"] = "Capitolul a fost modificat!";
                 return RedirectToAction("Index");
@@ -136,7 +137,7 @@ namespace ProiectDAW.Controllers
         }
 
 
-        /* DUPA CE ADAUG CLASA
+        //DUPA CE ADAUG CLASA
         [NonAction]
         public IEnumerable<SelectListItem> GetAllGrades()
         {
@@ -144,7 +145,7 @@ namespace ProiectDAW.Controllers
             var selectList = new List<SelectListItem>();
 
             // extragem toate categoriile din baza de date
-            var grades = from grad in db.Subjects
+            var grades = from grad in db.Grades
                            select grad;
 
             // iteram prin clase
@@ -153,7 +154,7 @@ namespace ProiectDAW.Controllers
             {
                 var listItem = new SelectListItem();
                 listItem.Value = grade.Id.ToString();
-                listItem.Text = grade.Name;
+                listItem.Text = grade.GradeName;
 
                 selectList.Add(listItem);
             }
@@ -163,6 +164,6 @@ namespace ProiectDAW.Controllers
             return selectList;
         
         }
-        */
+        
     }
 }
