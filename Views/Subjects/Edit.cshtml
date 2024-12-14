@@ -1,0 +1,28 @@
+﻿@model ProiectDAW.Models.Subject
+
+
+<h2>@ViewBag.Name</h2>
+
+<form method="post" asp-action="Edit" asp-controller="Subjects" asp-route-id="@Model.Id">
+    <div asp-validation-summary="All" class="text-danger"></div> 
+    <div class="form-group">
+        <label asp-for="Name" class="form-label">Denumire materie</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-success" type="submit">Modifica materia</button>
+
+
+</form>
+
+<br/>
+<br/>
+<form method="post" asp-controller="Subjects" asp-action="Delete"
+      asp-route-id="@Model.Id">
+
+    <button class="btn btn-danger" type="submit">Sterge materia</button>
+
+</form>
+
+
