@@ -14,7 +14,7 @@ namespace ProiectDAW.Models
 
         public int? SubjectId { get; set; }
 
-        //public int? GradeId { get; set; }
+        public int? GradeId { get; set; }
 
         public virtual Subject? Subject { get; set; }
 
@@ -24,10 +24,10 @@ namespace ProiectDAW.Models
 
 
 
-        //public virtual Grade? Grade { get; set; }
+        public virtual Grade? Grade { get; set; }
 
-        //[NotMapped]
-        //public IEnumerable<SelectListItem>? Grad { get; set; }
+        [NotMapped]
+        public IEnumerable<SelectListItem>? Grad { get; set; }
 
     }
 }
