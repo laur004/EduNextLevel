@@ -37,6 +37,16 @@
                 <button class="btn btn-sm btn-success" type="submit">Modifica articol</button>
 
             </form>
+
+
+            <br/>
+            <br/>
+                <form method="post" asp-controller="Chapters" asp-action="Delete"
+                 asp-route-id="@Model.Id">
+
+                        <button class="btn btn-danger" type="submit">Sterge capitolul</button>
+
+                </form>
             
         </div>
     </div>
