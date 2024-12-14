@@ -1,0 +1,20 @@
+﻿<h1>Materii<h1>
+<hr>
+<br/>
+
+
+@if(TempData.ContainsKey("message"))
+{
+    <h1>@TempData["message"]</h1>
+    <br/>
+}
+
+<br/>
+
+@foreach(var subject in ViewBag.Subjects){
+    <h3>@subject.Name</h3>
+    <a class="btn alert-success" asp-action="Show" asp-controller="Subjects" asp-route-id="@subject.Id">Afisare materie</a>
+    <a class="btn alert-success" asp-action="Edit" asp-controller="Subjects" asp-route-id="@subject.Id">Editare materie</a>
+    <br/>
+
+}
