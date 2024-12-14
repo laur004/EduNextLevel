@@ -15,5 +15,9 @@ namespace ProiectDAW.Data
         public DbSet<Subject> Subjects { get; set; }
         
         public DbSet<Chapter> Chapters { get; set; }
+
+        public DbSet<Article> Articles { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
     }
 }
