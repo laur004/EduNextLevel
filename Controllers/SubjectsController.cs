@@ -15,11 +15,16 @@ namespace ProiectDAW.Controllers
 
         public IActionResult Index()
         {
-            var subjects = from subj in db.Subjects
-                           orderby subj.Name
-                           select subj;
+            var subjects = (from subj in db.Subjects
+                            orderby subj.Name
+                            select new Subject
+                            {
+                                Id = subj.Id,
+                                Name = subj.Name
+                            }).ToList();
 
             ViewBag.Subjects = subjects;
+            //Console.WriteLine($"Subjects Count: {subjects.Count}"); // Log pentru numărul de elemente
 
             return View();
         }

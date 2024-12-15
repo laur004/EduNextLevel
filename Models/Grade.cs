@@ -8,5 +8,6 @@ namespace ProiectDAW.Models
 		[Required(ErrorMessage = "Incadrarea intr-o clasa este obliagtorie")]
 		public string GradeName { get; set; }
 
+		public virtual ICollection<Chapter>? Chapters { get; set; }
 	}
 }

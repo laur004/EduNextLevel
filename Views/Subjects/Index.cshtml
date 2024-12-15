@@ -13,6 +13,7 @@
 
 @foreach(var subject in ViewBag.Subjects){
     <h3>@subject.Name</h3>
+    <a asp-controller="Grades" asp-action="GradesForSubject" asp-route-id="@subject.Id">@subject.Name</a>
     <a class="btn alert-success" asp-action="Show" asp-controller="Subjects" asp-route-id="@subject.Id">Afisare materie</a>
     <a class="btn alert-success" asp-action="Edit" asp-controller="Subjects" asp-route-id="@subject.Id">Editare materie</a>
     <br/>

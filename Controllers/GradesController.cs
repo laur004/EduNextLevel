@@ -83,5 +83,40 @@ namespace ProiectDAW.Controllers
 			TempData["message"] = "clasa a fost stearsa!";
 			return RedirectToAction("Index");
 		}
+
+
+		public IActionResult GradesForSubject(int id)
+		{
+            var grades = (from c in db.Chapters
+                          join g in db.Grades on c.GradeId equals g.Id
+                          where c.SubjectId == id
+                          select g).Distinct().ToList();
+
+            ViewBag.Grades = grades;
+
+
+            //ViewBag.SubjectId = id;
+
+            ViewBag.Chapters = (from c in db.Chapters
+                             join g in db.Grades
+                             on c.GradeId equals g.Id
+                             where c.SubjectId == id
+                             orderby c.Id
+                             select c).ToList();
+
+			ViewBag.Subject = (from s in db.Subjects
+								   where s.Id == id
+								   select s).FirstOrDefault();
+
+			//ViewBag.SubjectName = (from s in db.Subjects
+   //                                where s.Id == id
+   //                                select s.Name).FirstOrDefault();
+
+            return View();
+
+           
+
+        }
+
 	}
 }
