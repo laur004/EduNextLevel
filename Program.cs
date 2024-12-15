@@ -35,6 +35,13 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
+
+app.MapControllerRoute(
+    name: "ArticlesForSubjectAndGradeAndChapter",
+    pattern: "{controller}/{action}/{subjectid}/{gradeid}/{chapterid}");
+app.MapRazorPages();
+
 app.MapControllerRoute(
     name: "ChaptersForSubjectAndGrade",
     pattern: "{controller}/{action}/{subjectid}/{gradeid}");

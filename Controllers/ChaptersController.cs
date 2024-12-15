@@ -178,7 +178,7 @@ namespace ProiectDAW.Controllers
                                select g).FirstOrDefault();
 
             ViewBag.Subject = (from s in db.Subjects
-                               where s.Id == gradeid
+                               where s.Id == subjectid
                                select s).FirstOrDefault();
 
             return View();

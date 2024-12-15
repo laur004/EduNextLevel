@@ -198,5 +198,29 @@ namespace ArticlesApp.Controllers
             // returnam lista de categorii
             return selectList;
         }
+
+        public IActionResult ArticlesForSubjectAndGradeAndChapter(int subjectid, int gradeid, int chapterid)
+        {
+            var articles = (from a in db.Articles
+                           where a.ChapterId == chapterid
+                           select a).ToList();
+
+            ViewBag.Articles = articles;
+
+            ViewBag.Grade = (from g in db.Grades
+                             where g.Id == gradeid
+                             select g).FirstOrDefault();
+
+            ViewBag.Subject = (from s in db.Subjects
+                               where s.Id == subjectid
+                               select s).FirstOrDefault();
+
+            ViewBag.Chapter = (from c in db.Chapters
+                                where c.Id == chapterid
+                                select c).FirstOrDefault();
+
+            return View();
+        }
+
     }
 }
