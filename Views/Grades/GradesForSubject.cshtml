@@ -8,9 +8,10 @@
         @foreach (var grade in ViewBag.Grades)
         {
             <h3>@grade.GradeName</h3>
+            <a asp-action="ChaptersForSubjectAndGrade" asp-controller="Chapters" asp-route-subjectid="@ViewBag.Subject.Id" asp-route-gradeid="@grade.Id">@grade.GradeName</a>
             <a class="btn alert-success" asp-action="Show" asp-controller="Grades" asp-route-id="@grade.Id">Afisare clase</a>
             <a class="btn alert-success" asp-action="Edit" asp-controller="Grades" asp-route-id="@grade.Id">Editare clase</a>
             <br />
 
         }
-        @**@
+        @*Comentariu in Razor!!*@

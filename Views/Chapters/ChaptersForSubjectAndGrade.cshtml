@@ -1,0 +1,19 @@
+﻿<h1>Capitole de @ViewBag.Subject.Name din clasa @ViewBag.Grade.GradeName<h1>
+    
+        <hr>
+        <br />
+
+        <br />
+
+        @foreach (var chapter in ViewBag.Chapters)
+        {
+            <h3>@chapter.ChapterTitle</h3>
+            @*<a asp-action="ChaptersForSubjectAndGrade" asp-controller="Chapters" asp-route-subjectid="@ViewBag.Subject.Id" asp-route-gradeid="@grade.Id"></a>*@
+            <a class="btn alert-success" asp-action="Show" asp-controller="Chapters" asp-route-id="@chapter.Id">Afisare capitol</a>
+            <a class="btn alert-success" asp-action="Edit" asp-controller="Chapters" asp-route-id="@chapter.Id">Editare capitol</a>
+            <br />
+
+        }
+        
+        @*Comentariu in Razor!!*@
+

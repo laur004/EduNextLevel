@@ -164,6 +164,25 @@ namespace ProiectDAW.Controllers
             return selectList;
         
         }
-        
+
+        public IActionResult ChaptersForSubjectAndGrade(int subjectid, int gradeid)
+        {
+            var chapters = (from c in db.Chapters
+                           where c.SubjectId == subjectid && c.GradeId == gradeid
+                           select c).ToList();
+
+            ViewBag.Chapters = chapters;
+
+            ViewBag.Grade = (from g in db.Grades
+                               where g.Id == gradeid
+                               select g).FirstOrDefault();
+
+            ViewBag.Subject = (from s in db.Subjects
+                               where s.Id == gradeid
+                               select s).FirstOrDefault();
+
+            return View();
+        }
+
     }
 }
