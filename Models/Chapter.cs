@@ -10,10 +10,14 @@ namespace ProiectDAW.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage ="Titlul capitolului este obligatoriu")]
+        [StringLength(100, ErrorMessage = "Lungimea maxima trebuie sa fie 100")]
+        [MinLength(4, ErrorMessage = "Lungimea trebuie sa fie minim 4")]
         public string ChapterTitle { get; set; }
 
+        [Required(ErrorMessage = "Materia este obligatorie!")]
         public int? SubjectId { get; set; }
 
+        [Required(ErrorMessage = "Clasa este obligatorie!")]
         public int? GradeId { get; set; }
 
         public virtual Subject? Subject { get; set; }
