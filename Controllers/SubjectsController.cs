@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProiectDAW.Data;
 using ProiectDAW.Models;
 
@@ -82,7 +83,15 @@ namespace ProiectDAW.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            Subject subject = db.Subjects.Find(id);
+
+
+            var subject = db.Subjects
+                    .Include(s => s.Chapters)
+                        .ThenInclude(c => c.Articles)
+                            .ThenInclude(a => a.Comments)
+                    .FirstOrDefault(s => s.Id == id);
+
+            //Subject subject = db.Subjects.Find(id);
             db.Subjects.Remove(subject);
             db.SaveChanges();
             TempData["message"] = "Materia a fost stearsa!";

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProiectDAW.Data;
 using ProiectDAW.Models;
 
@@ -77,7 +78,11 @@ namespace ProiectDAW.Controllers
 		[HttpPost]
 		public IActionResult Delete(int id)
 		{
-			Grade grade = db.Grades.Find(id);
+			Grade grade = db.Grades.Include("Chapters")
+						.Include("Chapters.Articles")
+						.Include("Chapters.Articles.Comments")
+						.Where(s => s.Id==id).First();
+
 			db.Grades.Remove(grade);
 			db.SaveChanges();
 			TempData["message"] = "clasa a fost stearsa!";
