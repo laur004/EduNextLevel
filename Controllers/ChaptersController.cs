@@ -67,6 +67,8 @@ namespace ProiectDAW.Controllers
             }
             else
             {
+                chapter.Subj = GetAllSubjects();
+                chapter.Grad = GetAllGrades();
                 return View(chapter);
             }
 
