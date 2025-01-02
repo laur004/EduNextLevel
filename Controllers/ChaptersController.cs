@@ -104,7 +104,13 @@ namespace ProiectDAW.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            Chapter chapter = db.Chapters.Find(id);
+
+            Chapter chapter = db.Chapters.Include("Articles")
+                                             .Include("Articles.Comments")
+                                             .Where(c => c.Id == id)
+                                             .First();
+
+            //Chapter chapter = db.Chapters.Find(id);
             db.Chapters.Remove(chapter);
             db.SaveChanges();
             TempData["message"] = "Capitolul a fost sters!";

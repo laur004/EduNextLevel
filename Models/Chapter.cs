@@ -20,6 +20,11 @@ namespace ProiectDAW.Models
         [Required(ErrorMessage = "Clasa este obligatorie!")]
         public int? GradeId { get; set; }
 
+
+
+        public virtual ICollection<Article>? Articles { get; set; }
+
+
         public virtual Subject? Subject { get; set; }
 
 
