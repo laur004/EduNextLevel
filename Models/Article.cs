@@ -18,6 +18,15 @@ namespace ProiectDAW.Models
         public string Content { get; set; }
         public DateTime Date { get; set; }
 
+
+        // PASUL 6: useri si roluri
+        // cheie externa (FK) - un articol este postat de catre un user
+        public string? UserId { get; set; }
+
+        //proprietatea virtuala - un articol este postat de catre un user
+        public virtual ApplicationUser? User { get; set; }
+
+
         [Required(ErrorMessage = "Categoria este obligatorie")]
         public int? ChapterId { get; set; }
 

@@ -1,4 +1,4 @@
-﻿
+﻿@model ProiectDAW.Models.Article
 
 <h2 class="text-center">Afisare articole</h2>
 
@@ -6,7 +6,10 @@
 
 @if(ViewBag.Message != null){
 
-    <h2 class="alert-success p-3 rounded-3 text-center mb-5">@ViewBag.Message</h2>
+    <div class="alert-success p-3 rounded-3 text-center mb-5 @ViewBag.Alert">
+        @ViewBag.Message
+    </div>
+
 }
 
 
@@ -48,6 +51,8 @@
             <div class="d-flex justify-content-between flex-row mt-5">
 
                 <div><i class="bi bi-globe"></i> @article.Chapter.ChapterTitle</div>
+
+                <div><i class="bi bi-person"></i> @article.User.UserName</div>
 
                 <a class="btn btn-success" href="/Articles/Show/@article.Id">Afisare articol</a>
 

@@ -4,7 +4,8 @@ using ProiectDAW.Models;
 
 namespace ProiectDAW.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    //PAS3
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProiectDAW.Data;
@@ -8,11 +9,33 @@ namespace ProiectDAW.Controllers
 {
     public class ChaptersController : Controller
     {
+
+
+        // PASUL 10: useri si roluri 
+
         private readonly ApplicationDbContext db;
-        public ChaptersController(ApplicationDbContext db) 
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public ChaptersController(
+        ApplicationDbContext context,
+        UserManager<ApplicationUser> userManager,
+        RoleManager<IdentityRole> roleManager
+        )
         {
-            this.db = db;
+            db = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
+
+
+
+        //private readonly ApplicationDbContext db;
+        //public ChaptersController(ApplicationDbContext db) 
+        //{
+        //    this.db = db;
+        //}
+
+
         public IActionResult Index()
         {
             var chapters = from chap in db.Chapters

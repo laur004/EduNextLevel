@@ -14,6 +14,14 @@ namespace ProiectDAW.Models
 
         public int ArticleId { get; set; }
 
+
+        // PASUL 6: useri si roluri
+        // cheie externa (FK) - un comentariu este postat de catre un user
+        public string? UserId { get; set; }
+
+        //proprietatea virtuala - un comentariu este postat de catre un user
+        public virtual ApplicationUser? User { get; set; }
+
         public virtual Article Article { get; set; }
     }
 }
