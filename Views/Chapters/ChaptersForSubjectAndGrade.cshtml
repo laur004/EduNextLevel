@@ -9,8 +9,16 @@
         {
             <h3>@chapter.ChapterTitle</h3>
             <a asp-action="ArticlesForSubjectAndGradeAndChapter" asp-controller="Articles" asp-route-subjectid="@ViewBag.Subject.Id" asp-route-gradeid="@ViewBag.Grade.Id" asp-route-chapterid="@chapter.Id">@chapter.ChapterTitle</a>
-            <a class="btn alert-success" asp-action="Show" asp-controller="Chapters" asp-route-id="@chapter.Id">Afisare capitol</a>
-            <a class="btn alert-success" asp-action="Edit" asp-controller="Chapters" asp-route-id="@chapter.Id">Editare capitol</a>
+            
+            
+            @if(ViewBag.EsteAdmin==true)
+            {
+                <a class="btn alert-success" asp-action="Show" asp-controller="Chapters" asp-route-id="@chapter.Id">Afisare capitol</a>
+                <a class="btn alert-success" asp-action="Edit" asp-controller="Chapters" asp-route-id="@chapter.Id">Editare capitol</a>
+            }
+            
+            
+            
             <br />
 
         }

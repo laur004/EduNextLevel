@@ -43,7 +43,7 @@ namespace ArticlesApp.Controllers
         // din care fac parte
         // HttpGet implicit
 
-        [Authorize(Roles = "Admin,User")]
+        //[Authorize(Roles = "Admin,User")]
         public IActionResult Index()
         {
             var articles = db.Articles.Include("Chapter")
@@ -153,6 +153,9 @@ namespace ArticlesApp.Controllers
                 if (!allowedExtensions.Contains(fileExtension))
                 {
                     ModelState.AddModelError("ArticleImage", "Fișierul trebuie să fie o imagine (jpg, jpeg, png, gif) sau un video (mp4,  mov).");
+
+                    article.Chap = GetAllChapters();
+
                     return View(article);
                 }
 

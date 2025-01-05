@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using ProiectDAW.Models;
 
 namespace ProiectDAW.Controllers
 {
+    
     public class ChaptersController : Controller
     {
 
@@ -35,7 +37,7 @@ namespace ProiectDAW.Controllers
         //    this.db = db;
         //}
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var chapters = from chap in db.Chapters
@@ -61,13 +63,14 @@ namespace ProiectDAW.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Show(int id)
         {
             Chapter chapter = db.Chapters.Find(id);
             return View(chapter);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult New()
         {
             Chapter chapter = new Chapter();
@@ -79,6 +82,7 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult New(Chapter chapter)
         {
             if (ModelState.IsValid)
@@ -97,6 +101,7 @@ namespace ProiectDAW.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             Chapter chapter = db.Chapters.Find(id);
@@ -107,6 +112,7 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id, Chapter req_chapter)
         {
             Chapter chapter = db.Chapters.Find(id);
@@ -125,6 +131,7 @@ namespace ProiectDAW.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
 
@@ -139,6 +146,12 @@ namespace ProiectDAW.Controllers
             TempData["message"] = "Capitolul a fost sters!";
             return RedirectToAction("Index");
         }
+
+
+
+        
+
+
 
 
         [NonAction]
@@ -212,7 +225,28 @@ namespace ProiectDAW.Controllers
                                where s.Id == subjectid
                                select s).FirstOrDefault();
 
+            SetAccessRights();
+
             return View();
+        }
+
+
+
+
+
+
+        private void SetAccessRights()
+        {
+            ViewBag.AfisareButoane = false;
+
+            if (User.IsInRole("User"))
+            {
+                ViewBag.AfisareButoane = true;
+            }
+
+            ViewBag.UserCurent = _userManager.GetUserId(User);
+
+            ViewBag.EsteAdmin = User.IsInRole("Admin");
         }
 
     }
