@@ -29,12 +29,13 @@ namespace ArticlesApp.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        [Authorize(Roles = "Admin,User")]
+
 
 
         // Se afiseaza lista tuturor articolelor impreuna cu categoria 
         // din care fac parte
         // HttpGet implicit cu sortare
+        //[Authorize(Roles = "Admin,User")]
         public IActionResult Index(string sortOrder="date_asc")
         {
             var articles = db.Articles.Include("Chapter")
@@ -70,11 +71,99 @@ namespace ArticlesApp.Controllers
                     break;
             }
 
-            ViewBag.Articles = articles;
 
             if (TempData.ContainsKey("message"))
             {
                 ViewBag.Message = TempData["message"];
+            }
+
+
+            // MOTOR DE CAUTARE
+
+            var search = "";
+
+            if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
+            {
+                search = Convert.ToString(HttpContext.Request.Query["search"]).Trim(); // eliminam spatiile libere 
+
+                // Cautare in articol (Title si Content)
+
+                List<int> articleIds = db.Articles.Where
+                                        (
+                                         at => at.Title.Contains(search)
+                                         || at.Content.Contains(search)
+                                        ).Select(a => a.Id).ToList();
+
+                // Cautare in comentarii (Content)
+                List<int> articleIdsOfCommentsWithSearchString = db.Comments
+                                        .Where
+                                        (
+                                         c => c.Content.Contains(search)
+                                        ).Select(c => (int)c.ArticleId).ToList();
+
+                // Se formeaza o singura lista formata din toate id-urile selectate anterior
+                List<int> mergedIds = articleIds.Union(articleIdsOfCommentsWithSearchString).ToList();
+
+
+                // Lista articolelor care contin cuvantul cautat
+                // fie in articol -> Title si Content
+                // fie in comentarii -> Content
+                articles = db.Articles.Where(article => mergedIds.Contains(article.Id))
+                                      .Include("Chapter")
+                                      .Include("User")
+                                      .OrderByDescending(a => a.Date);
+
+            }
+
+            ViewBag.SearchString = search;
+
+            // AFISARE PAGINATA
+
+            // Alegem sa afisam 3 articole pe pagina
+            int _perPage = 3;
+
+            // Fiind un numar variabil de articole, verificam de fiecare data utilizand 
+            // metoda Count()
+
+            int totalItems = articles.Count();
+
+            // Se preia pagina curenta din View-ul asociat
+            // Numarul paginii este valoarea parametrului page din ruta
+            // /Articles/Index?page=valoare
+
+            var currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
+
+            // Pentru prima pagina offsetul o sa fie zero
+            // Pentru pagina 2 o sa fie 3 
+            // Asadar offsetul este egal cu numarul de articole care au fost deja afisate pe paginile anterioare
+            var offset = 0;
+
+            // Se calculeaza offsetul in functie de numarul paginii la care suntem
+            if (!currentPage.Equals(0))
+            {
+                offset = (currentPage - 1) * _perPage;
+            }
+
+            // Se preiau articolele corespunzatoare pentru fiecare pagina la care ne aflam 
+            // in functie de offset
+            var paginatedArticles = articles.Skip(offset).Take(_perPage);
+
+
+            // Preluam numarul ultimei pagini
+            ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)_perPage);
+
+            // Trimitem articolele cu ajutorul unui ViewBag catre View-ul corespunzator
+            ViewBag.Articles = paginatedArticles;
+
+            // DACA AVEM AFISAREA PAGINATA IMPREUNA CU SEARCH
+
+            if (search != "")
+            {
+                ViewBag.PaginationBaseUrl = "/Articles/Index/?search=" + search + "&page";
+            }
+            else
+            {
+                ViewBag.PaginationBaseUrl = "/Articles/Index/?page";
             }
 
             return View(articles.ToList());
