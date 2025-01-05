@@ -1,5 +1,15 @@
 ﻿<h1>Articole de @ViewBag.Subject.Name din clasa @ViewBag.Grade.GradeName din capitolul @ViewBag.Chapter.ChapterTitle</h1>
 
+<div class="d-flex justify-content-center">
+
+
+    <a class="btn btn-outline-success" href="/Articles/New">Adauga articol</a>
+    <br />
+
+</div>
+
+<br/>
+
 @foreach (var article in ViewBag.Articles)
 {
     <div class="card">

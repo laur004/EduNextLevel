@@ -170,6 +170,8 @@ namespace ArticlesApp.Controllers
                 }
 
                 ModelState.Remove(nameof(article.Image));
+
+
                 article.Image = databaseFileName;
                 
             }
