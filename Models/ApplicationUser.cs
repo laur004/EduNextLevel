@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations.Schema;
 
 //PAS1
 
@@ -12,5 +14,17 @@ namespace ProiectDAW.Models
 
         // un user poate posta mai multe articole
         public virtual ICollection<Article>? Articles { get; set; }
+
+
+        // atribute suplimentare adaugate pentru user
+        public string? FirstName { get; set; }
+
+        public string? LastName { get; set; }
+
+
+        // variabila in care vom retine rolurile existente in baza de date
+        // pentru popularea unui dropdown list
+        [NotMapped]
+        public IEnumerable<SelectListItem>? AllRoles { get; set; }
     }
 }
