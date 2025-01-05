@@ -29,8 +29,56 @@ namespace ArticlesApp.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
+        [Authorize(Roles = "Admin,User")]
 
 
+        // Se afiseaza lista tuturor articolelor impreuna cu categoria 
+        // din care fac parte
+        // HttpGet implicit cu sortare
+        public IActionResult Index(string sortOrder="date_asc")
+        {
+            var articles = db.Articles.Include("Chapter")
+                                        .Include("Chapter.Grade")
+                                        .Include("User");
+                                        
+            // ViewBag.OriceDenumireSugestiva
+            ViewBag.Articles = articles;
+            //ViewBag.GradeName=
+            // Pregătim parametrii de sortare pentru View
+            ViewData["DateSortParam"] = sortOrder == "date_asc" ? "date_desc" : "date_asc";
+            ViewData["TitleSortParam"] = sortOrder == "title_asc" ? "title_desc" : "title_asc";
+
+            //var articles = db.Articles.Include("Chapter");
+
+            // Logica de sortare
+            switch (sortOrder)
+            {
+                case "date_asc":
+                    articles = articles.OrderBy(a => a.Date);
+                    break;
+                case "date_desc":
+                    articles = articles.OrderByDescending(a => a.Date);
+                    break;
+                case "title_asc":
+                    articles = articles.OrderBy(a => a.Title);
+                    break;
+                case "title_desc":
+                    articles = articles.OrderByDescending(a => a.Title);
+                    break;
+                default:
+                    articles = articles.OrderByDescending(a => a.Date); // Sortare implicită
+                    break;
+            }
+
+            ViewBag.Articles = articles;
+
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.Message = TempData["message"];
+            }
+
+            return View(articles.ToList());
+        }
         //private readonly ApplicationDbContext db;
         //private readonly IWebHostEnvironment _env;
         //public ArticlesController(ApplicationDbContext context, IWebHostEnvironment env)
@@ -44,7 +92,7 @@ namespace ArticlesApp.Controllers
         // HttpGet implicit
 
         //[Authorize(Roles = "Admin,User")]
-        public IActionResult Index()
+        /*public IActionResult Index()
         {
             var articles = db.Articles.Include("Chapter")
                                         .Include("User");
@@ -59,7 +107,7 @@ namespace ArticlesApp.Controllers
             }
 
             return View();
-        }
+        }*/
 
         // Se afiseaza un singur articol in functie de id-ul sau 
         // impreuna cu categoria din care face parte

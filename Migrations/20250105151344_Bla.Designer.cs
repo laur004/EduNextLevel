@@ -9,18 +9,18 @@ using ProiectDAW.Data;
 
 #nullable disable
 
-namespace ProiectDAW.Data.Migrations
+namespace ProiectDAW.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250104142927_UserRoles")]
-    partial class UserRoles
+    [Migration("20250105151344_Bla")]
+    partial class Bla
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -180,6 +180,12 @@ namespace ProiectDAW.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");

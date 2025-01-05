@@ -1,5 +1,5 @@
-﻿@model ProiectDAW.Models.Article
-
+﻿@*@model ProiectDAW.Models.Article*@
+@model IEnumerable<ProiectDAW.Models.Article>
 <h2 class="text-center">Afisare articole</h2>
 
 <br />
@@ -24,6 +24,54 @@
 <br />
 
 
+<!-- Meniu dropdown pentru sortare -->
+<div class="dropdown mb-3">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        Sortează după
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="title_asc">Titlu (Alfabetic A-Z)</a>
+        </li>
+        <li>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="title_desc">Titlu (Invers Z-A)</a>
+        </li>
+        <li>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="date_asc">Data (Cel mai vechi)</a>
+        </li>
+        <li>
+            <a class="dropdown-item" asp-action="Index" asp-route-sortOrder="date_desc">Data (Cel mai nou)</a>
+        </li>
+    </ul>
+</div>
+
+<!-- Afișare articole -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Titlu</th>
+            <th>Data postării</th>
+            <th>Capitol</th>
+            <th>Clasa</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var article in Model)
+        {
+            <tr>
+                <td>@article.Title</td>
+                <td>@article.Date.ToString("dd/MM/yyyy")</td>
+                <td>@article.Chapter.ChapterTitle</td>
+                <td>@article.Chapter.Grade.GradeName</td>
+                @* <td>
+                    <img src="@article.Image" alt="Imagine articol" style="width: 100px; height: auto;" />
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
 @foreach (var article in ViewBag.Articles)
 {
     <div class="card">
@@ -31,7 +79,7 @@
         <div class="card-body">
 
             <h3 class="card-title alert-success py-3 px-3 rounded-2">@article.Title</h3>
-
+            <!--
             @if(article.Image.Contains(".mp4") || article.Image.Contains(".mov"))
             {
                 <video width="550" height="300" controls>
@@ -44,7 +92,7 @@
                 <img src="@article.Image" alt="Article Image" style="width: 100%; height: 450px; object-fit: cover" />
 
             }
-
+            -->
             <div class="card-text">@article.Content</div>
 
             <div class="d-flex justify-content-between flex-row mt-5">
