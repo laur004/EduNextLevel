@@ -47,11 +47,13 @@
             <div class="d-flex flex-row justify-content-between">
                 <a class="btn btn-success" href="/Articles/Edit/@Model.Id">Editeaza articol</a>
 
+                @if(ViewBag.EsteEditor != true){
                 <form method="post" asp-controller="Articles" asp-action="Delete" asp-route-id="@Model.Id">
 
                 <button class="btn btn-danger" type="submit">Sterge articol</button>
-
+                
                 </form>
+                }
 
             </div>
         }

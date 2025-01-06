@@ -369,8 +369,9 @@ namespace ProiectDAW.Controllers
                         return View(article);
                     }
 
-                    var imageStoragePath = Path.Combine(_env.WebRootPath, "images", Image.FileName);
-                    var imageDatabasePath = "/images/" + Image.FileName;
+                    var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(Image.FileName);
+                    var imageStoragePath = Path.Combine(_env.WebRootPath, "images", uniqueFileName);
+                    var imageDatabasePath = "/images/" + uniqueFileName;
 
                     using (var fileStream = new FileStream(imageStoragePath, FileMode.Create))
                     {
@@ -383,6 +384,7 @@ namespace ProiectDAW.Controllers
                 // Procesare PDF
                 if (PdfPath != null && PdfPath.Length > 0)
                 {
+
                     var allowedPdfExtensions = new[] { ".pdf" };
                     var pdfExtension = Path.GetExtension(PdfPath.FileName).ToLower();
 
@@ -393,8 +395,9 @@ namespace ProiectDAW.Controllers
                         return View(article);
                     }
 
-                    var pdfStoragePath = Path.Combine(_env.WebRootPath, "pdfs", PdfPath.FileName);
-                    var pdfDatabasePath = "/pdfs/" + PdfPath.FileName;
+                    var uniquePdfName = Guid.NewGuid().ToString() + Path.GetExtension(PdfPath.FileName);
+                    var pdfStoragePath = Path.Combine(_env.WebRootPath, "pdfs", uniquePdfName);
+                    var pdfDatabasePath = "/pdfs/" + uniquePdfName;
 
                     using (var fileStream = new FileStream(pdfStoragePath, FileMode.Create))
                     {
@@ -779,7 +782,7 @@ namespace ProiectDAW.Controllers
                                          .FirstOrDefault();
 
             // Verificăm dacă articolul există și dacă utilizatorul are dreptul să îl șteargă
-            if (article != null && ((article.UserId == _userManager.GetUserId(User)) || User.IsInRole("Admin") || User.IsInRole("Editor")))
+            if (article != null && ((article.UserId == _userManager.GetUserId(User)) || User.IsInRole("Admin") ))
             {
                 try
                 {
