@@ -1,18 +1,11 @@
 ﻿@model ProiectDAW.Models.Article
 
 
-@* Afisarea unui articol impreuna cu categoria din care face *@
-<div class="d-flex justify-content-center">
 
-    <a class="btn btn-outline-success" href="/Articles/Index/">Afisare articole</a>
-
-
-</div>
 
 <br />
 
 <div class="card">
-
     <div class="card-body">
 
         <h3 class="card-title alert-success py-3 px-3 rounded-2">@Model.Title</h3>
@@ -20,20 +13,36 @@
         <div class="card-text">@Model.Content</div>
 
         <div class="d-flex justify-content-between flex-row mt-5">
-
             <div><i class="bi bi-globe"></i> @Model.Chapter.ChapterTitle</div>
-
             <div><i class="bi bi-person"></i> @Model.User.UserName</div>
-
             <span class="alert-success">@Model.Date</span>
-
         </div>
 
+        <!-- Verificăm dacă există o imagine -->
+        @if (!string.IsNullOrEmpty(Model.Image))
+        {
+            <div class="mt-3">
+                <h5>Imagine asociată articolului:</h5>
+                <img src="@Model.Image" alt="Imagine asociată" class="img-fluid">
+            </div>
+        }
+
+        <!-- Verificăm dacă există un fișier PDF -->
+        @if (!string.IsNullOrEmpty(Model.PdfPath))
+        {
+            <div class="mt-3">
+                <h5>PDF asociat articolului:</h5>
+                <embed src="@Model.PdfPath" type="application/pdf" width="50%" height="600px">
+            </div>
+        }
+
     </div>
+</div>
+
 
     <hr />
 
-    @if(ViewBag.AfisareButoane=true && Model.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin==true)
+    @if(ViewBag.AfisareButoane=true && Model.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin==true || ViewBag.EsteEditor == true)
         {
             <div class="d-flex flex-row justify-content-between">
                 <a class="btn btn-success" href="/Articles/Edit/@Model.Id">Editeaza articol</a>
@@ -71,15 +80,18 @@
                 </div>
                 <br>
 
-                @if (comm.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin == true)
+                @if (comm.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin == true || ViewBag.EsteEditor == true)
                 {
                     <div class="d-flex">
+                         
+                        @if (comm.UserId == ViewBag.UserCurent){
                         <div>
                             <a class="btn btn-outline-primary" asp-controller="Comments" asp-action="Edit" asp-route-id="@comm.Id">
                                 <i class="bi bi-pencil-square"></i> Editeaza
                             </a>
 
                         </div>
+                         }
                         <div>
                             <form method="post" asp-controller="Comments" asp-action="Delete" asp-route-id="@comm.Id">
 

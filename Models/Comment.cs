@@ -22,6 +22,6 @@ namespace ProiectDAW.Models
         //proprietatea virtuala - un comentariu este postat de catre un user
         public virtual ApplicationUser? User { get; set; }
 
-        public virtual Article Article { get; set; }
+        public virtual Article? Article { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArticlesApp.Controllers
+namespace ProiectDAW.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class UsersController : Controller

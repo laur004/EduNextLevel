@@ -250,7 +250,9 @@ namespace ProiectDAW.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Image")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PdfPath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")

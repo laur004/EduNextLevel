@@ -30,9 +30,8 @@ namespace ProiectDAW.Models
         [Required(ErrorMessage = "Categoria este obligatorie")]
         public int? ChapterId { get; set; }
 
-        // Adaugam un string unde vom salva calea imaginii pentru articol
-        [Required(ErrorMessage = "Imaginea este obligatorie")]
-        public string Image { get; set; }
+        public string? Image { get; set; } // Calea imaginii (opțională)
+        public string? PdfPath { get; set; } // Calea fișierului PDF (opțional)
 
         public virtual Chapter? Chapter { get; set; }
 

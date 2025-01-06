@@ -92,20 +92,7 @@
         <div class="card-body">
 
             <h3 class="card-title alert-success py-3 px-3 rounded-2">@article.Title</h3>
-            @*
-            @if(article.Image.Contains(".mp4") || article.Image.Contains(".mov"))
-            {
-                <video width="550" height="300" controls>
-                    <source src="@article.Image" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            }
-            else
-            {
-                <img src="@article.Image" alt="Article Image" style="width: 100%; height: 450px; object-fit: cover" />
-
-            }
-            *@
+            
             <div class="card-text">@article.Content</div>
 
             <div class="d-flex justify-content-between flex-row mt-5">
