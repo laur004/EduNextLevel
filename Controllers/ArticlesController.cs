@@ -938,28 +938,178 @@ namespace ProiectDAW.Controllers
             return selectList;
         }
 
-        public IActionResult ArticlesForSubjectAndGradeAndChapter(int subjectid, int gradeid, int chapterid)
+        //public IActionResult ArticlesForSubjectAndGradeAndChapter(int subjectid, int gradeid, int chapterid)
+        //{
+        //    var articles = (from a in db.Articles
+        //                   where a.ChapterId == chapterid
+        //                   select a).ToList();
+
+        //    ViewBag.Articles = articles;
+
+        //    ViewBag.Grade = (from g in db.Grades
+        //                     where g.Id == gradeid
+        //                     select g).FirstOrDefault();
+
+        //    ViewBag.Subject = (from s in db.Subjects
+        //                       where s.Id == subjectid
+        //                       select s).FirstOrDefault();
+
+        //    ViewBag.Chapter = (from c in db.Chapters
+        //                        where c.Id == chapterid
+        //                        select c).FirstOrDefault();
+
+        //    return View();
+        //}
+
+
+        public IActionResult ArticlesForSubjectAndGradeAndChapter(int subjectid, int gradeid, int chapterid, string sortOrder = "date_asc")
         {
-            var articles = (from a in db.Articles
-                           where a.ChapterId == chapterid
-                           select a).ToList();
+            // Query cu toate relațiile necesare și filtrare după toate criteriile
+            var articles = db.Articles
+                            .Include(a => a.Chapter)
+                                .ThenInclude(c => c.Grade)
+                            .Include(a => a.Chapter)
+                                .ThenInclude(c => c.Subject)
+                            .Include(a => a.User)
+                            .Where(a => a.ChapterId == chapterid
+                                    && a.Chapter.GradeId == gradeid
+                                    && a.Chapter.SubjectId == subjectid);
 
-            ViewBag.Articles = articles;
+            // Setăm parametrii de sortare pentru View
+            ViewData["DateSortParam"] = sortOrder == "date_asc" ? "date_desc" : "date_asc";
+            ViewData["TitleSortParam"] = sortOrder == "title_asc" ? "title_desc" : "title_asc";
 
-            ViewBag.Grade = (from g in db.Grades
-                             where g.Id == gradeid
-                             select g).FirstOrDefault();
+            // Aplicăm sortarea
+            switch (sortOrder)
+            {
+                case "date_asc":
+                    articles = articles.OrderBy(a => a.Date);
+                    break;
+                case "date_desc":
+                    articles = articles.OrderByDescending(a => a.Date);
+                    break;
+                case "title_asc":
+                    articles = articles.OrderBy(a => a.Title);
+                    break;
+                case "title_desc":
+                    articles = articles.OrderByDescending(a => a.Title);
+                    break;
+                default:
+                    articles = articles.OrderByDescending(a => a.Date);
+                    break;
+            }
 
-            ViewBag.Subject = (from s in db.Subjects
-                               where s.Id == subjectid
-                               select s).FirstOrDefault();
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.Message = TempData["message"];
+            }
 
-            ViewBag.Chapter = (from c in db.Chapters
-                                where c.Id == chapterid
-                                select c).FirstOrDefault();
 
-            return View();
+
+
+
+
+
+            // MOTOR DE CAUTARE
+
+            var search = "";
+
+            if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
+            {
+                search = Convert.ToString(HttpContext.Request.Query["search"]).Trim(); // eliminam spatiile libere 
+
+                // Cautare in articol (Title si Content)
+
+                List<int> articleIds = db.Articles.Where
+                                        (
+                                         at => at.Title.Contains(search)
+                                         || at.Content.Contains(search)
+                                        ).Select(a => a.Id).ToList();
+
+                // Cautare in comentarii (Content)
+                List<int> articleIdsOfCommentsWithSearchString = db.Comments
+                                        .Where
+                                        (
+                                         c => c.Content.Contains(search)
+                                        ).Select(c => (int)c.ArticleId).ToList();
+
+                // Se formeaza o singura lista formata din toate id-urile selectate anterior
+                List<int> mergedIds = articleIds.Union(articleIdsOfCommentsWithSearchString).ToList();
+
+
+                // Lista articolelor care contin cuvantul cautat
+                // fie in articol -> Title si Content
+                // fie in comentarii -> Content
+                articles = db.Articles.Where(article => mergedIds.Contains(article.Id))
+                                      .Include("Chapter")
+                                      .Include("User")
+                                      .OrderByDescending(a => a.Date);
+
+            }
+
+            ViewBag.SearchString = search;
+
+            // AFISARE PAGINATA
+
+            // Alegem sa afisam 3 articole pe pagina
+            int _perPage = 3;
+
+            // Fiind un numar variabil de articole, verificam de fiecare data utilizand 
+            // metoda Count()
+
+            int totalItems = articles.Count();
+
+            // Se preia pagina curenta din View-ul asociat
+            // Numarul paginii este valoarea parametrului page din ruta
+            // /Articles/Index?page=valoare
+
+            var currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
+
+            // Pentru prima pagina offsetul o sa fie zero
+            // Pentru pagina 2 o sa fie 3 
+            // Asadar offsetul este egal cu numarul de articole care au fost deja afisate pe paginile anterioare
+            var offset = 0;
+
+            // Se calculeaza offsetul in functie de numarul paginii la care suntem
+            if (!currentPage.Equals(0))
+            {
+                offset = (currentPage - 1) * _perPage;
+            }
+
+            // Se preiau articolele corespunzatoare pentru fiecare pagina la care ne aflam 
+            // in functie de offset
+            var paginatedArticles = articles.Skip(offset).Take(_perPage);
+
+
+            // Preluam numarul ultimei pagini
+            ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)_perPage);
+
+            // Trimitem articolele cu ajutorul unui ViewBag catre View-ul corespunzator
+            ViewBag.Articles = paginatedArticles;
+
+            // DACA AVEM AFISAREA PAGINATA IMPREUNA CU SEARCH
+
+            if (search != "")
+            {
+                ViewBag.PaginationBaseUrl = "/Articles/Index/?search=" + search + "&page";
+            }
+            else
+            {
+                ViewBag.PaginationBaseUrl = "/Articles/Index/?page";
+            }
+
+
+
+
+
+
+
+
+
+            return View(articles.ToList());
         }
+
+
 
     }
 }
