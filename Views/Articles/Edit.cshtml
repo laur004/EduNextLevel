@@ -8,36 +8,77 @@
     <div class="row">
         <div class="col-md-6 offset-3">
 
-            <form method="post" asp-action="Edit" asp-controller="Articles" asp-route-id="@Model.Id">
+            @if(ViewBag.AfisareButoane=true && Model.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin==true){
 
-                <div class="form-group">
-                    <label asp-for="Title" class="form-label">Titlu Articol</label>
-                    <br />
-                    <input asp-for="Title" class="form-control" />
-                    <br /><br />
-                </div>
+            <form method="post" enctype="multipart/form-data" asp-action="Edit" asp-controller="Articles" asp-route-id="@Model.Id">
 
-                <div class="form-group">
-                    <label asp-for="Content" class="form-label">Continut Articol</label>
-                    <br />
-                    <textarea asp-for="Content" class="form-control"></textarea>
-                    <br /><br />
-                </div>
+    <div class="form-group">
+        <label asp-for="Title" class="form-label">Titlu Articol</label>
+        <input asp-for="Title" class="form-control" />
+    </div>
 
-                <div class="form-group">
-                    <label for="ChapterId">Selectati categoria</label>
-                    <br />
-                    <select asp-for="ChapterId" asp-items="Model.Chap" class="form-control">
-                        <option value="">Selectati categoria</option>
-                    </select>
-                    <br />
-                </div>
+    <div class="form-group">
+        <label asp-for="Content" class="form-label">Continut Articol</label>
+        <textarea asp-for="Content" class="form-control"></textarea>
+    </div>
 
-                <button class="btn btn-sm btn-success" type="submit">Modifica articol</button>
+    <div class="form-group">
+        <label for="ChapterId">Selectati categoria</label>
+        <select asp-for="ChapterId" asp-items="Model.Chap" class="form-control">
+            <option value="">Selectati categoria</option>
+        </select>
+    </div>
 
-            </form>
-            
+    <!-- Câmpul pentru imagine -->
+<div class="form-group">
+    <label for="Image">Imagine (opțional):</label>
+    <input type="file" name="Image" class="form-control" />
+    @if (!string.IsNullOrEmpty(Model.Image))
+    {
+        <p>Imaginea curentă: <img src="@Model.Image" alt="Imagine articol" style="max-width: 200px; height: auto;" /></p>
+        <div>
+            <input type="checkbox" name="DeleteImage" value="true" /> Șterge imaginea
+        </div>
+    }
+</div>
+
+<!-- Câmpul pentru fișier PDF -->
+<div class="form-group">
+    <label for="PdfPath">Fișier PDF (opțional):</label>
+    <input type="file" name="PdfPath" class="form-control" />
+    @if (!string.IsNullOrEmpty(Model.PdfPath))
+    {
+        <p>Fișierul PDF curent: <a href="@Model.PdfPath" target="_blank">Descarcă PDF</a></p>
+        <div>
+            <input type="checkbox" name="DeletePdf" value="true" /> Șterge PDF-ul
+        </div>
+    }
+</div>
+
+
+    <button class="btn btn-sm btn-success" type="submit">Modifica articol</button>
+
+</form>
+            }
+
+            else
+
+            {
+                <form method="post" enctype="multipart/form-data" asp-action="Edit" asp-controller="Articles" asp-route-id="@Model.Id">
+
+                    <div class="form-group">
+                        <label for="ChapterId">Selectati categoria</label>
+                        <select asp-for="ChapterId" asp-items="Model.Chap" class="form-control">
+                            <option value="">Selectati categoria</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-sm btn-success" type="submit">Modifica articol</button>
+
+                </form>
+            }
+
+
         </div>
     </div>
 </div>
-

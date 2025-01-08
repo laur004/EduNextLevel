@@ -1,20 +1,24 @@
-﻿
-@{
-    ViewBag.Title = "Edit";
-}
+﻿@model ProiectDAW.Models.Comment
 
 <h2>Editare comentariu</h2>
 <br />
 
-<form method="post" action="/Comments/Edit/@ViewBag.Comment.Id">
-
-    <label>Continut comentariu</label>
-    <br />
-
-    <textarea name="Content">@ViewBag.Comment.Content</textarea>
-    <br />
-
-    <button class="btn  btn-primary" type="submit">Editeaza comentariul</button>
-
+<form asp-action="Edit" asp-controller="Comments" method="post">
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.ArticleId)
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    
+    <div class="form-group">
+        <label asp-for="Content" class="form-label">Conținut comentariu</label>
+        <br />
+        <textarea asp-for="Content" class="form-control"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+    
+    <br /><br />
+    <button class="btn btn-primary" type="submit">Editează comentariul</button>
 </form>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

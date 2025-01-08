@@ -23,6 +23,16 @@
 
 <br />
 
+@* Motorul de cautare *@
+<form method="GET">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search topics or keywords" name="search"
+               value="@ViewBag.SearchString">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </div>
+</form>
+
+
 
 <!-- Meniu dropdown pentru sortare -->
 <div class="dropdown mb-3">
@@ -45,32 +55,35 @@
     </ul>
 </div>
 
-<!-- Afișare articole -->
-<table class="table">
-    <thead>
-        <tr>
-            <th>Titlu</th>
-            <th>Data postării</th>
-            <th>Capitol</th>
-            <th>Clasa</th>
-        </tr>
-    </thead>
-    <tbody>
+ <!-- Afișare articole -->
+ @*
+ <table class="table">
+     <thead>
+         <tr>
+             <th>Titlu</th>
+             <th>Data postării</th>
+             <th>Capitol</th>
+             <th>Clasa</th>
+         </tr>
+     </thead>
+     <tbody>
 
-        @foreach (var article in Model)
-        {
-            <tr>
-                <td>@article.Title</td>
-                <td>@article.Date.ToString("dd/MM/yyyy")</td>
-                <td>@article.Chapter.ChapterTitle</td>
-                <td>@article.Chapter.Grade.GradeName</td>
-                @* <td>
-                    <img src="@article.Image" alt="Imagine articol" style="width: 100px; height: auto;" />
-                </td>*@
-            </tr>
-        }
-    </tbody>
-</table>
+         @foreach (var article in Model)
+         {
+             <tr>
+                 <td>@article.Title</td>
+                 <td>@article.Date.ToString("dd/MM/yyyy")</td>
+                 <td>@article.Chapter.ChapterTitle</td>
+                 <td>@article.Chapter.Grade.GradeName</td>
+                  <td>
+                     <img src="@article.Image" alt="Imagine articol" style="width: 100px; height: auto;" />
+                 </td>
+             </tr>
+         }
+     </tbody>
+ </table>
+
+ *@
 
 @foreach (var article in ViewBag.Articles)
 {
@@ -79,20 +92,7 @@
         <div class="card-body">
 
             <h3 class="card-title alert-success py-3 px-3 rounded-2">@article.Title</h3>
-            <!--
-            @if(article.Image.Contains(".mp4") || article.Image.Contains(".mov"))
-            {
-                <video width="550" height="300" controls>
-                    <source src="@article.Image" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            }
-            else
-            {
-                <img src="@article.Image" alt="Article Image" style="width: 100%; height: 450px; object-fit: cover" />
-
-            }
-            -->
+            
             <div class="card-text">@article.Content</div>
 
             <div class="d-flex justify-content-between flex-row mt-5">
@@ -115,3 +115,28 @@
     <br />
 }
 
+
+@* Afisarea paginata a articolelor *@
+
+<div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            @for (int i = 1; i <= ViewBag.lastPage; i++)
+            {
+                <li class="page-item"> <a class="page-link" href="@ViewBag.PaginationBaseUrl=@i">@(i)</a> </li>
+            }
+
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=@(ViewBag.lastPage)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

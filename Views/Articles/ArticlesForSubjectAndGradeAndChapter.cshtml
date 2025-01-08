@@ -1,4 +1,4 @@
-﻿<h1>Articole de @ViewBag.Subject.Name din clasa @ViewBag.Grade.GradeName din capitolul @ViewBag.Chapter.ChapterTitle</h1>
+﻿@*<h1>Articole de @ViewBag.Subject.Name din clasa @ViewBag.Grade.GradeName din capitolul @ViewBag.Chapter.ChapterTitle</h1>
 
 <div class="d-flex justify-content-center">
 
@@ -18,18 +18,6 @@
 
             <h3 class="card-title alert-success py-3 px-3 rounded-2">@article.Title</h3>
 
-            @if(article.Image.Contains(".mp4") || article.Image.Contains(".mov"))
-            {
-                <video width="550" height="300" controls>
-                    <source src="@article.Image" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            }
-            else
-            {
-                <img src="@article.Image" alt="Article Image" style="width: 100%; height: 450px; object-fit: cover" />
-
-            }
 
             <div class="card-text">@article.Content</div>
 
@@ -50,3 +38,161 @@
     <br />
     <br />
 }
+*@
+
+@*@model ProiectDAW.Models.Article*@
+@model IEnumerable<ProiectDAW.Models.Article>
+<h2 class="text-center">Afisare articole</h2>
+
+<br />
+
+ @if(@ViewBag.Message != null){
+
+     <div class="alert-success p-3 rounded-3 text-center mb-5 @ViewBag.Alert">
+         @ViewBag.Message
+     </div>
+
+ }
+ 
+
+
+<div class="d-flex justify-content-center">
+
+
+    <a class="btn btn-outline-success" href="/Articles/New">Adauga articol</a>
+    <br />
+
+</div>
+
+<br />
+
+@* Motorul de cautare 
+<form method="GET">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search topics or keywords" name="search"
+               value="@ViewBag.SearchString">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </div>
+</form>
+*@
+
+
+<!-- Meniu dropdown pentru sortare -->
+<div class="dropdown mb-3">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        Sortează după
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li>
+            
+            <a class="dropdown-item" asp-action="ArticlesForSubjectAndGradeAndChapter" asp-controller="Articles" asp-route-subjectid="@ViewBag.SubjectId"
+            asp-route-gradeid="@ViewBag.GradeId" asp-route-chapterid="@ViewBag.ChapterId" asp-route-sortOrder="title_asc">Titlu (Alfabetic A-Z)</a>
+            
+        </li>
+        <li>
+            
+            <a class="dropdown-item" asp-action="ArticlesForSubjectAndGradeAndChapter" asp-controller="Articles" asp-route-subjectid="@ViewBag.SubjectId"
+            asp-route-gradeid="@ViewBag.GradeId" asp-route-chapterid="@ViewBag.ChapterId" asp-route-sortOrder="title_desc">Titlu (Invers Z-A)</a>
+            
+        </li>
+        <li>
+            
+            <a class="dropdown-item" asp-action="ArticlesForSubjectAndGradeAndChapter" asp-controller="Articles" asp-route-subjectid="@ViewBag.SubjectId"
+            asp-route-gradeid="@ViewBag.GradeId" asp-route-chapterid="@ViewBag.ChapterId" asp-route-sortOrder="date_asc">Data (Cel mai vechi)</a>
+            
+        </li>
+        <li>
+            
+            <a class="dropdown-item" asp-action="ArticlesForSubjectAndGradeAndChapter" asp-controller="Articles" asp-route-subjectid="@ViewBag.SubjectId"
+            asp-route-gradeid="@ViewBag.GradeId" asp-route-chapterid="@ViewBag.ChapterId" asp-route-sortOrder="date_desc">Data (Cel mai nou)</a>
+            
+        </li>
+    </ul>
+</div>
+
+ <!-- Afișare articole -->
+ @*
+ <table class="table">
+     <thead>
+         <tr>
+             <th>Titlu</th>
+             <th>Data postării</th>
+             <th>Capitol</th>
+             <th>Clasa</th>
+         </tr>
+     </thead>
+     <tbody>
+
+         @foreach (var article in Model)
+         {
+             <tr>
+                 <td>@article.Title</td>
+                 <td>@article.Date.ToString("dd/MM/yyyy")</td>
+                 <td>@article.Chapter.ChapterTitle</td>
+                 <td>@article.Chapter.Grade.GradeName</td>
+                  <td>
+                     <img src="@article.Image" alt="Imagine articol" style="width: 100px; height: auto;" />
+                 </td>
+             </tr>
+         }
+     </tbody>
+ </table>
+
+ *@
+
+@foreach (var article in ViewBag.Articles)
+{
+    <div class="card">
+
+        <div class="card-body">
+
+            <h3 class="card-title alert-success py-3 px-3 rounded-2">@article.Title</h3>
+            
+            <div class="card-text">@article.Content</div>
+
+            <div class="d-flex justify-content-between flex-row mt-5">
+
+                <div><i class="bi bi-globe"></i> @article.Chapter.ChapterTitle</div>
+
+                <div><i class="bi bi-person"></i> @article.User.UserName</div>
+
+                <a class="btn btn-success" href="/Articles/Show/@article.Id">Afisare articol</a>
+
+                <span class="alert-success px-1 align-content-center">@article.Date</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br />
+    <br />
+}
+
+
+@* Afisarea paginata a articolelor 
+
+<div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            @for (int i = 1; i <= ViewBag.lastPage; i++)
+            {
+                <li class="page-item"> <a class="page-link" href="@ViewBag.PaginationBaseUrl=@i">@(i)</a> </li>
+            }
+
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=@(ViewBag.lastPage)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+*@
