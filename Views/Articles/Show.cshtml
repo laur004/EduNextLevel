@@ -71,20 +71,19 @@
 
 @foreach (var comm in Model.Comments)
 {
-    <div class=" bg-light container">
-        <div class="row">
+    <div class="container">
+        <div class="card border-primary">
             <div class="col-md-2"></div>
             
             <div class="col-md-8">
 
-                <div>
-
-                    <p>@comm.Content</p>
-                    <small>@comm.Date</small>
-                    <strong><i class="bi bi-person"></i>@comm.User.UserName</strong>
+                <div class="align-content-center">
+                    <p>    </p>
+                    <p>&#8291; @comm.Content  </p>
+                    <small> &#8291;&#8291; @comm.Date</small>
+                    <strong><i class="bi bi-person"></i>&#8291;&#8291;@comm.User.UserName</strong>
 
                 </div>
-                <br>
 
                 @if (comm.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin == true || ViewBag.EsteEditor == true)
                 {
@@ -92,7 +91,8 @@
                          
                         @if (comm.UserId == ViewBag.UserCurent){
                         <div>
-                            <a class="btn btn-outline-primary" asp-controller="Comments" asp-action="Edit" asp-route-id="@comm.Id">
+                            
+                                <a class="btn btn-outline-primary" asp-controller="Comments" asp-action="Edit" asp-route-id="@comm.Id">
                                 <i class="bi bi-pencil-square"></i> Editeaza
                             </a>
 
