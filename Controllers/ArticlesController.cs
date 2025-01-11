@@ -36,7 +36,7 @@ namespace ProiectDAW.Controllers
         // din care fac parte
         // HttpGet implicit cu sortare
         //[Authorize(Roles = "Admin,User")]
-        public IActionResult Index(string sortOrder="date_asc")
+        public IActionResult Index(string sortOrder= "date_desc")
         {
             var articles = db.Articles.Include("Chapter")
                                         .Include("Chapter.Grade")

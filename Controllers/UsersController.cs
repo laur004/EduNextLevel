@@ -112,7 +112,6 @@ namespace ProiectDAW.Controllers
             var user = db.Users
                          .Include("Articles")
                          .Include("Comments")
-                         .Include("Bookmarks")
                          .Where(u => u.Id == id)
                          .First();
 
