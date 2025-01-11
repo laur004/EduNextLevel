@@ -1,9 +1,10 @@
-﻿<h1>Materii<h1>
+﻿<div class="text-center">
+<h1>Materii<h1>
 <hr>
-<br/>
+       
 @if(ViewBag.EsteAdmin==true)
 {
-    <a class="btn alert-success" asp-action="New" asp-controller="Subjects">Adauga materie</a>
+    <a class="btn alert-primary" asp-action="New" asp-controller="Subjects">Adauga materie</a>
 }
 <br/>
 
@@ -18,12 +19,15 @@
 
 @foreach(var subject in ViewBag.Subjects){
     <h3>@subject.Name</h3>
-    <a asp-controller="Grades" asp-action="GradesForSubject" asp-route-id="@subject.Id">@subject.Name</a>
+            <a class="btn alert-primary" asp-action="GradesForSubject" asp-controller="Grades" asp-route-id="@subject.Id">Afisare materie</a>
+
     @if(ViewBag.EsteAdmin==true)
 {
     @*<a class="btn alert-success" asp-action="Show" asp-controller="Subjects" asp-route-id="@subject.Id">Afisare materie</a>*@
-    <a class="btn alert-success" asp-action="Edit" asp-controller="Subjects" asp-route-id="@subject.Id">Editare materie</a>
+    <a class="btn alert-primary" asp-action="Edit" asp-controller="Subjects" asp-route-id="@subject.Id">Editare materie</a>
 }
     <br/>
+                <br />
+
 
 }

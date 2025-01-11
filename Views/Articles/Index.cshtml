@@ -1,7 +1,8 @@
 ﻿@*@model ProiectDAW.Models.Article*@
 @model IEnumerable<ProiectDAW.Models.Article>
-<h2 class="text-center">Afisare articole</h2>
 
+<h2 class="text-center">Afisare articole</h2>
+<lang="en" data-bs-theme="dark">
 <br />
 
 @if(ViewBag.Message != null){
@@ -16,7 +17,7 @@
 <div class="d-flex justify-content-center">
 
 
-    <a class="btn btn-outline-success" href="/Articles/New">Adauga articol</a>
+    <a class="btn btn-outline-primary" href="/Articles/New">Adauga articol</a>
     <br />
 
 </div>
@@ -36,7 +37,7 @@
 
 <!-- Meniu dropdown pentru sortare -->
 <div class="dropdown mb-3">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
         Sortează după
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -54,9 +55,10 @@
         </li>
     </ul>
 </div>
-
- <!-- Afișare articole -->
- @*
+	
+	<!-- Afișare articole -->
+@*
+	<div ">
  <table class="table">
      <thead>
          <tr>
@@ -67,8 +69,8 @@
          </tr>
      </thead>
      <tbody>
-
-         @foreach (var article in Model)
+	
+         @foreach (var article in ViewBag.Articles)
          {
              <tr>
                  <td>@article.Title</td>
@@ -87,23 +89,25 @@
 
 @foreach (var article in ViewBag.Articles)
 {
+        var contentLimitat = article.Content.Length > 200 ? article.Content.Substring(0, 200) + "..." : article.Content;
+
     <div class="card">
 
         <div class="card-body">
 
-            <h3 class="card-title alert-success py-3 px-3 rounded-2">@article.Title</h3>
+            <h3 class="card-title alert-primary py-3 px-3 rounded-2">@article.Title</h3>
             
-            <div class="card-text">@article.Content</div>
+            <div class="card-text">@contentLimitat</div>
 
             <div class="d-flex justify-content-between flex-row mt-5">
 
-                <div><i class="bi bi-globe"></i> @article.Chapter.ChapterTitle</div>
+                <div><i class="bi bi-book"></i> @article.Chapter.ChapterTitle</div>
 
                 <div><i class="bi bi-person"></i> @article.User.UserName</div>
 
-                <a class="btn btn-success" href="/Articles/Show/@article.Id">Afisare articol</a>
+                <a class="btn btn-primary" href="/Articles/Show/@article.Id">Afisare articol</a>
 
-                <span class="alert-success px-1 align-content-center">@article.Date</span>
+                <span class="alert-primary px-1 align-content-center">@article.Date</span>
 
             </div>
 
@@ -114,7 +118,7 @@
     <br />
     <br />
 }
-
+</div>
 
 @* Afisarea paginata a articolelor *@
 
@@ -140,3 +144,4 @@
         </ul>
     </nav>
 </div>
+
