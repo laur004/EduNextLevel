@@ -4,7 +4,7 @@
 
 <hr/>
 <br/>
-<a class="btn alert-success" asp-action="New" asp-controller="Chapters">Adauga capitol</a>
+<a class="btn alert-primary" asp-action="New" asp-controller="Chapters">Adauga capitol</a>
 <br/>
 
 @if(TempData.ContainsKey("message"))
@@ -17,8 +17,7 @@
 
 @foreach(var chapter in ViewBag.Chapters){
     <h3>@chapter.ChapterTitle</h3>
-    <a class="btn alert-success" asp-action="Show" asp-controller="Chapters" asp-route-id="@chapter.Id">Afisare capitol</a>
-    <a class="btn alert-success" asp-action="Edit" asp-controller="Chapters" asp-route-id="@chapter.Id">Editare capitol</a>
+    <a class="btn alert-primary" asp-action="Edit" asp-controller="Chapters" asp-route-id="@chapter.Id">Editare capitol</a>
     <br/>
 
 }

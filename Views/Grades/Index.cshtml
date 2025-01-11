@@ -1,7 +1,7 @@
 ﻿<h1>Clase<h1>
 <hr>
 <br />
-<a class="btn alert-success" asp-action="New" asp-controller="Grades">Adauga clasa</a>
+<a class="btn alert-primary" asp-action="New" asp-controller="Grades">Adauga clasa</a>
 <br />
 
 
@@ -16,8 +16,8 @@
         @foreach (var grade in ViewBag.Grades)
         {
             <h3>@grade.GradeName</h3>
-            <a class="btn alert-success" asp-action="Show" asp-controller="Grades" asp-route-id="@grade.Id">Afisare clase</a>
-            <a class="btn alert-success" asp-action="Edit" asp-controller="Grades" asp-route-id="@grade.Id">Editare clase</a>
+
+            <a class="btn alert-primary" asp-action="Edit" asp-controller="Grades" asp-route-id="@grade.Id">Editare clase</a>
             <br />
 
         }
